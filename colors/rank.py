@@ -20,10 +20,10 @@ def rank(imgpath: str, outpath=r'./color_rank.json', top=10):
         vs.append(list(v))
 
     item = [{'rank': i+1, 'count': str(uk[i]), 'color': list(map(lambda c: r'rgb({}, {}, {})'.format(c[1][2], c[1][1], c[1][0]), vs[i]))} for i in range(0, min(top, len(uk)))]
-    _writeFile(json.dumps(item))
+    _writeFile(json.dumps(item, sort_keys=True, indent=4, separators=(',', ': ')), outpath)
 
 
-def _writeFile(txt:str, outpath:str):
+def _writeFile(txt: str, outpath: str):
     with open(outpath, 'w') as f:
         f.write(txt)
 
