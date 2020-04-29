@@ -7,7 +7,7 @@ import colors.rank as rk
 
 imgpath = r'./sample.png'
 
-rk.rank(imgpath, r'./color_rank.json', top=5)
+rk.rank(imgpath, outpath=r'./test.json', top=10)
 ```
 
 output
