@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>view</title>
+
+<script>
+
+	const trigger = (elem, event) => {
+	let e = document.createEvent('HTMLEvents');
+	e.initEvent(event, true, true);
+	return elem.dispatchEvent(e);
+	};
+
+	const onload = () => document.readyState !== 'complete'
+	? new Promise(r => document.addEventListener('readystatechange', () => {
+		switch (document.readyState) {
+			case 'complete': r();break;
+			default:
+		}
+	}))
+	: Promise.resolve();
+</script>
+<script>
+	const dc = t => document.createElement(t);
+	const attr = (t, att) => Object.entries(att).reduce((o, [k, v]) => (o.setAttribute(k, v), o), dc(t));
+	const txt = (o,t) => (o.textContent = t, o);
+	onload().then(() => {
+		fetch('./test.json')
+			.then(v => v.json()).then(a => {
+
+				const tbl = document.createElement('table');
+				tr = dc('tr');
+				tr.append(
+					txt(dc('th'), 'rank'),
+					txt(dc('th'), 'count'),
+					txt(dc('th'), 'color'),
+					txt(dc('th'), ''),
+				);
+				tbl.append(tr, ...a.map(v => {
+					tr = dc('tr');
+					tr.append(
+						txt(dc('td'), v.rank),
+						txt(dc('td'), v.count),
+						txt(dc('td'), v.color),
+						attr('td', {style: `width: 2rem;background: ${v.color}`})
+					);
+					return tr;
+				}));
+				
+			document.body.append(tbl);
+				
+			})
+		
+	})
+
+</script>
+</head>
+<body>
+
+</body>
+</html>
